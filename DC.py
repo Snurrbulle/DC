@@ -104,8 +104,73 @@ while True:
         elif event == 20:
             print("You found a diamond! How lucky!")
             add_item("diamond")
+    elif action == "Build a stone house.":
+        if drop_item("wooden log", 5) and drop_item("stone", 10):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(20)
+            print(" done. You got 8 points safer.")
+            safeness = safeness + 8
+        else:
+            print("You need 5 wooden logs and 10 stones to build this.")
+    elif action == "Build a stone wall.":
+        if drop_item("wooden log", 1) and drop_item("stone", 20):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(15)
+            print(" done. You got 15 points safer.")
+            safeness = safeness + 15
+        else:
+            print("You need 1 wooden log and 10 stones to build this.")
+    elif action == "Build an iron wall.":
+        if drop_item("wooden log", 1) and drop_item("iron", 20):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(20)
+            print(" done. You got 42 points safer.")
+            safeness = safeness + 42
+        else:
+            print("You need 1 wooden log and 20 iron to build to build this.")
+    elif action == "Build a gold wall.":
+        if drop_item("wooden log", 1) and drop_item("gold", 20):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(20)
+            print(" done. You got 112 points safer.")
+            safeness = safeness + 112
+        else:
+            print("You need 1 wooden log and 20 gold to build this.")
+    elif action == "Build a diamond wall.":
+        if drop_item("wooden log", 1) and drop_item("diamond", 20):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(20)
+            print(" done. You got 498 points safer.")
+            safeness = safeness + 498
+        else:
+            print("You need 1 wooden log and 20 diamonds to build this.")
+    elif action == "Build a forge.":
+        if drop_item("wooden log", 8) and drop_item("stone", 15) and drop_item("iron", 25):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(30)
+            print(" done. You got 74 points safer.")
+            safeness = safeness + 74
+        else:
+            print("You need 5 wooden logs, 15 stones, and 25 iron to build this.")
+    elif action == "Build a mansion.":
+        if drop_item("wooden log", 40) and drop_item("stone", 30) and drop_item("iron", 50) and drop_item("gold", 69) and drop_item("diamond", 37):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(150)
+            print(" done. You got 1234 points safer.")
+            safeness = safeness + 1234
+        else:
+            print("You need 40 wooden logs, 30 stones, 50 iron, 69 gold, and 37 diamonds to build this.")
+    elif action == "Build a bank.":
+        if drop_item("wooden log", 10) and drop_item("stone", 50) and drop_item("iron", 36) and drop_item("gold", 60):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(100)
+            print(" done. You got 763 points safer.")
+            safeness = safeness + 763
+        else:
+            print("You need 10 wooden logs, 50 stones, 36 iron, and 60 gold to build this.")
+    
     else:
-        print("'There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
+        print("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
 
     if health <= 0:
         print("You died.")
