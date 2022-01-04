@@ -1,5 +1,6 @@
 import time
 import sys
+import random
 
 inventory = {}
 health = 10
@@ -40,7 +41,17 @@ while True:
         add_item("wooden log", 999)
         health = 999
         safeness = 999
-        print("You cheater! Okay, here. Have evrything you need like ever in this game.")
+        add_item("dead cave monster", 999)
+        add_item("stone", 999)
+        add_item("iron", 999)
+        add_item("cheaters pass", 999)
+        add_item("fire potion", 999)
+        add_item("water potion", 999)
+        add_item("air potion", 999)
+        add_item("earth potion", 999)
+        add_item("gold", 999)
+        add_item("diamond", 999)
+        print("You cheater! Okay, here. Have everything you'll ever need in this game.")
     elif action == "Build a starter house.":
         if drop_item("wooden log", 10):
             print("Building. Please wait...", end="", flush=True)
@@ -51,8 +62,50 @@ while True:
             print("You need 10 wooden logs to build this.")
     elif action == "Check my safeness.":
         print("Your safeness is " + str(safeness) + " points.")
+    elif action == "Enter a nearby cave.":
+        print("You entered a nearby cave.")
+        time.sleep(random.randint(1, 25))
+        event = random.randint(0, 19)
+        if event in range(10):
+            damage = str(random.randint(1, 10))
+            print("You found a cave monster. Before you killed it, it did " + damage + " damage on you.")
+            add_item("dead cave monster")
+            add_item("stone", random.randint(1, 6))
+            health = health - damage
+        elif event in range(11, 16):
+            print("You found some iron.")
+            add_item("iron", random.randint(1, 3))
+            add_item("stone", random.randint(1, 6))
+        elif event in range(15, 18):
+            print("You found gold!")
+            add_item("gold")
+            add_item("stone", random.randint(1, 6))
+        elif event == 18:
+            if drop_item("fire potion"):
+                print("You fell in lava, but luckily, you had a fire potion to survive.")
+            else:
+                print("You fell in lava and died.")
+                sys.exit()
+        elif event == 19:
+            treasureRandomness = random.randint(0, 5)
+            if treasureRandomness == 0:
+                add_item("fire potion")
+                tresure = "fire potion"
+            elif tresureRandomness == 1:
+                add_item("water potion")
+                tresure = "water potion"
+            elif tresureRandomness == 2:
+                add_item("air potion")
+                tresure = "air potion"
+            elif tresureRandomness == 3:
+                add_item("earth potion")
+                tresure = "earth potion"
+            print("You found a " + treasure + ".")
+        elif event == 20:
+            print("You found a diamond! How lucky!")
+            add_item("diamond")
     else:
-        print("'There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in the game.")
+        print("'There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
 
     if health <= 0:
         print("You died.")
