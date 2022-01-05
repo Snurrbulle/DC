@@ -54,6 +54,7 @@ while True:
         add_item("gold", 999)
         add_item("diamond", 999)
         points = 999
+        add_item("Danscupcaken core", 999)
         print("You cheater! Okay, here. Have everything you'll ever need in this game.")
     elif action == "Build a starter house.":
         if drop_item("wooden log", 10):
@@ -187,7 +188,21 @@ while True:
             print("You need 10 wooden logs, 50 stones, 36 iron, and 60 gold to build this.")
     elif action == "Check my level.":
         print("You have " + str(points) +  ".")
-    
+    elif action == "Seach for a Danscupcaken core."
+        print("Seaching. Please wait...", end="", flush=True)
+        time.sleep(20)
+        print(" done. You got a Danscupcaken core.")
+        self.add_item("Danscupcaken core.")
+    elif action == "Build a Danscupcaken statue.":
+        if drop_item("Danscupcaken core") and drop_item("stone", 8):
+            print("Building. Please wait...", end="", flush=True)
+            time.sleep(20)
+            print(" done. You got 9 points safer.")
+            safeness = safeness + 9
+            points = points + 10
+        else:
+            print("You need 1 Danscupcaken core and 8 stones to build this.")
+            
     else:
         print("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
 
