@@ -13,8 +13,8 @@ def say_pause_say(first, pause_sec, second):
     print(second)
 
 def ask(it):
-    c = input(it)
-    time.sleep(2.4563456)
+    print(it, end="", flush=True)
+    c = input("")
     return c
 
 class Game:
@@ -25,21 +25,26 @@ class Game:
         self.points = 0
         self.name = 0
         self.has_seen_intro = False
+        self.has_been_back_to_kasper = False
 
     def save_to_file(self, filename):
         with open(filename, "w") as f:
             json.dump({"inventory": self.inventory, "health": self.health,
                        "safeness": self.safeness, "points": self.points,
-                       "name": self.name, "has_seen_intro": self.has_seen_intro},
+                       "name": self.name, "has_seen_intro": self.has_seen_intro,
+                       "has_been_back_to_kasper": self.has_been_back_to_kasper},
                       f, indent=True, sort_keys=True)
 
     def load_from_file(self, filename):
         with open(filename) as f:
             j = json.load(f)
-        self.inventory = j["inventory"]
-        self.health = j["health"]
-        self.safeness = j["safeness"]
-        self.points = j["points"]
+        self.inventory = j.get("inventory", {})
+        self.health = j.get("health", 10)
+        self.safeness = j.get("safeness", 0)
+        self.points = j.get("points", 0)
+        self.name = j.get("name", "Player")
+        self.has_seen_intro = j.get("has_seen_intro", False)
+        self.has_been_back_to_kasper = j.get("has_been_back_to_kasper", False)
 
     def have_item(self, it):
         return self.inventory.get(it, 0) > 0
@@ -55,6 +60,38 @@ class Game:
             return True
         else:
             return False
+
+    def back_to_kasper(self):
+        say("Kasper: Hello.")
+        if not self.has_been_back_to_kasper:
+            say("Kasper: You have proved yoursef ready, by getting 7500 points and 5000 safeness without dying.")
+            say("Kasper: Until this day, you have been mortal.")
+            say("Kasper: I will now give you a respawn orb.")
+            say("Kasper: You are now part of the imortals.")
+            self.add_item("respawn orb")
+            say("Kasper: Bye!")
+        else:
+            say("Kasper: I don't have time for you right now.")
+            say("Kasper: See you later.")
+        self.game_loop()
+
+    def kill_player(self):
+        if have_item("respawn orb"):
+            say("You respawned.")
+            inventory = {}
+            add_item("respawn orb")
+            health = 10
+            points = 0
+            game_loop()
+        else:
+            say("You died and lost all of your progress.")
+            self.inventory = {}
+            self.health = 10
+            self.safeness = 0
+            self.points = 0
+            self.name = 0
+            self.has_seen_intro = False
+            self.has_been_back_to_kasper = False
 
     def game_loop(self):
         if not self.has_seen_intro:
@@ -79,7 +116,7 @@ class Game:
             elif action == "Open my inventory.":
                 say("Inventory: {}".format(self.inventory))
             elif action == "Quit game.":
-                save_to_file("save.")
+                self.save_to_file("save.json")
                 sys.exit()
             elif action == "Jump off a cliff.":
                 self.health = self.health - 4
@@ -101,6 +138,7 @@ class Game:
                 self.add_item("gold", 999)
                 self.add_item("diamond", 999)
                 self.points = 999
+                self.add_item("respawn orb", 999)
                 say("You cheater! Okay, here. Have everything you'll ever need in this game.")
             elif action == "Build a starter house.":
                 if self.drop_item("wooden log", 10):
@@ -135,7 +173,7 @@ class Game:
                         say("You fell in lava, but luckily, you had a fire potion to survive.")
                     else:
                         say("You fell in lava and died.")
-                        sys.exit()
+                        kill_player()
                 elif event == 19:
                     treasureRandomness = random.randint(0, 5)
                     if treasureRandomness == 0:
@@ -219,16 +257,22 @@ class Game:
             elif action == "Build a Danscupcaken statue.":
                 if drop_item("Danscupcaken core") and drop_item("stone", 8):
                     say_pause_say("Building. Please wait...", 20, " done. You got 9 points safer.")
-                    safeness = safeness + 9
-                    points = points + 10
+                    self.safeness = safeness + 9
+                    self.points = points + 10
                 else:
                     say("You need 1 Danscupcaken core and 8 stones to build this.")
+            elif action == "Call for Kasper.":
+                if self.points >= 7500 and self.safeness >= 5000:
+                    self.back_to_kasper()
+                else:
+                    say("Nothing happned.")
             else:
                 say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
+                self.safeness = 5001
+                self.points = 7501
                 
             if self.health <= 0:
-                say("You died.")
-                sys.exit()
+                kill_player()
 
 g = Game()
 newOrOld = ask("Do you want to continue an old game? ")
