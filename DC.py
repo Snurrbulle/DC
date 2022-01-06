@@ -28,6 +28,7 @@ class Game:
         self.has_been_back_to_kasper = False
         self.has_danscupcaken_statue = False
         self.has_seen_danscupcaken = False
+        self.have_team_temple = False
 
     def save_to_file(self, filename):
         with open(filename, "w") as f:
@@ -37,6 +38,7 @@ class Game:
                        "has_been_back_to_kasper": self.has_been_back_to_kasper,
                        "has_danscupcaken_statue": self.has_danscupcaken_statue,
                        "has_seen_danscupcaken": self.has_seen_danscupcaken},
+                       "have_team_temple": self.have_team_temple},
                       f, indent=True, sort_keys=True)
 
     def load_from_file(self, filename):
@@ -51,6 +53,7 @@ class Game:
         self.has_been_back_to_kasper = j.get("has_been_back_to_kasper", False)
         self.has_danscupcaken_statue = j.get("has_danscupcaken_statue", False)
         self.has_seen_danscupcaken = j.get("has_seen_danscupcaken", False)
+        self.have_team_temple = j.get("have_team_temple", False)
 
     def have_item(self, it):
         return self.inventory.get(it, 0) > 0
@@ -73,7 +76,7 @@ class Game:
             say("Kasper: You have proved yoursef ready, by getting 7500 points and 5000 safeness without dying.")
             say("Kasper: Until this day, you have been mortal.")
             say("Kasper: I will now give you a respawn orb.")
-            say("Kasper: You are now part of the immortals.")
+            say("Kasper: You are now part of the imortals.")
             self.add_item("respawn orb")
             say("Kasper: Bye!")
         else:
@@ -82,10 +85,10 @@ class Game:
         self.game_loop()
 
     def kill_player(self):
-        if self.have_item("respawn orb"):
+        if have_item("respawn orb"):
             say("You respawned.")
             inventory = {}
-            self.add_item("respawn orb")
+            add_item("respawn orb")
             health = 10
             points = 0
             game_loop()
@@ -181,43 +184,39 @@ class Game:
                     say("You found a cave monster. Before you killed it, it did " + damage + " damage on you.")
                     self.add_item("dead cave monster")
                     self.add_item("stone", random.randint(1, 6))
-                    self.health = self.health - int(damage)
-                elif event in range(10, 16):
+                    self.health = self.health - damage
+                elif event in range(11, 16):
                     say("You found some iron.")
                     self.add_item("iron", random.randint(1, 3))
                     self.add_item("stone", random.randint(1, 6))
-                elif event == 16:
+                elif event in range(15, 18):
                     say("You found gold!")
                     self.add_item("gold")
                     self.add_item("stone", random.randint(1, 6))
-                elif event == 17:
+                elif event == 18:
                     if self.drop_item("fire potion"):
                         say("You fell in lava, but luckily, you had a fire potion to survive.")
                     else:
                         say("You fell in lava and died.")
-                        self.kill_player()
-                elif event == 18:
+                        kill_player()
+                elif event == 19:
                     treasureRandomness = random.randint(0, 5)
                     if treasureRandomness == 0:
                         self.add_item("fire potion")
-                        treasure = "fire potion"
+                        tresure = "fire potion"
                     elif tresureRandomness == 1:
                         self.add_item("water potion")
-                        treasure = "water potion"
+                        tresure = "water potion"
                     elif tresureRandomness == 2:
                         self.add_item("air potion")
-                        treasure = "air potion"
+                        tresure = "air potion"
                     elif tresureRandomness == 3:
                         self.add_item("earth potion")
-                        treasure = "earth potion"
-                    else:
-                        assert False, f"Bad treasure: {treasureRandomness}"
+                        tresure = "earth potion"
                     say("You found a " + treasure + ".")
-                elif event == 19:
+                elif event == 20:
                     say("You found a diamond! How lucky!")
                     self.add_item("diamond")
-                else:
-                    assert False, f"Bad event: {event}"
             elif action == "Build a stone house.":
                 if self.drop_item("wooden log", 5) and self.drop_item("stone", 10):
                     say_pause_say("Building. Please wait...", 20, " done. You got 8 points safer.")
@@ -274,7 +273,7 @@ class Game:
                     self.points = self.points + 123
                 else:
                     say("You need 10 wooden logs, 50 stones, 36 iron, and 60 gold to build this.")
-            elif action == "Save game.":
+            elif action == "Save to save file.":
                 self.save_to_file("save.json")
                 say("Saved your game state to 'save.json'")
             elif action == "Search for a Danscupcaken core.":
@@ -283,9 +282,9 @@ class Game:
             elif action == "Build a Danscupcaken statue.":
                 if self.drop_item("Danscupcaken core") and self.drop_item("stone", 8):
                     say_pause_say("Building. Please wait...", 20, " done. You got 9 points safer.")
-                    self.safeness = self.safeness + 9
-                    self.points = self.points + 10
                     self.has_danscupcaken_statue = True
+                    self.safeness = safeness + 9
+                    self.points = points + 10
                 else:
                     say("You need 1 Danscupcaken core and 8 stones to build this.")
             elif action == "Call for Kasper.":
@@ -298,12 +297,20 @@ class Game:
                     self.meet_danscupcaken()
                 else:
                     say("Nothing happened.")
+            elif action == "Build a tempel of the immortals.":
+                if drop_item("stone", 99) and drop_item("diamond", 10) and have_item("respawn orb") and not have_team_temple:
+                    say_pause_say("Building. Please wait...", 42, " done. You got 3500 points safer.")
+                    self.points = points + 1
+                    self.safeness = safeness + 3500
+                    self.have_team_temple = True
+                else:
+                    say("You need 99 stones, 10 diamonds and a immortals membership to build this. And you can only build one.")
             elif action == "Load game.":
                 say("You will now load another game state.")
                 self.load_from_file("save.json")
             else:
                 say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
-                
+
             if self.health <= 0:
                 self.kill_player()
 
