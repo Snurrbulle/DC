@@ -268,8 +268,6 @@ class Game:
                     say("Nothing happned.")
             else:
                 say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
-                self.safeness = 5001
-                self.points = 7501
                 
             if self.health <= 0:
                 kill_player()
