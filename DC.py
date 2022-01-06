@@ -37,7 +37,7 @@ class Game:
                        "name": self.name, "has_seen_intro": self.has_seen_intro,
                        "has_been_back_to_kasper": self.has_been_back_to_kasper,
                        "has_danscupcaken_statue": self.has_danscupcaken_statue,
-                       "has_seen_danscupcaken": self.has_seen_danscupcaken},
+                       "has_seen_danscupcaken": self.has_seen_danscupcaken,
                        "have_team_temple": self.have_team_temple},
                       f, indent=True, sort_keys=True)
 
@@ -91,7 +91,6 @@ class Game:
             add_item("respawn orb")
             health = 10
             points = 0
-            game_loop()
         else:
             say("You died and lost all of your progress.")
             self.inventory = {}
@@ -101,6 +100,7 @@ class Game:
             self.name = 0
             self.has_seen_intro = False
             self.has_been_back_to_kasper = False
+        game_loop()
 
     def meet_danscupcaken(self):
         if not self.has_seen_danscupcaken:
@@ -117,6 +117,11 @@ class Game:
             say("Danscupcaken: I don't have time for you now either.")
             say("Danscupcaken: Bye bye.")
         game_loop()
+
+    def damage_player(self, damage):
+        self.health = self.health - damage
+        if self.health <= 0:
+            kill_player()
 
     def game_loop(self):
         if not self.has_seen_intro:
@@ -144,7 +149,7 @@ class Game:
                 self.save_to_file("save.json")
                 sys.exit()
             elif action == "Jump off a cliff.":
-                self.health = self.health - 4
+                self.damage_player(4)
                 say("You lost 4 health points.")
             elif action == "Check my health.":
                 say("Your health is " + str(self.health) + ".")
@@ -181,10 +186,10 @@ class Game:
                 event = random.randint(0, 19)
                 if event in range(10):
                     damage = str(random.randint(1, 10))
+                    self.damage_player(damage)
                     say("You found a cave monster. Before you killed it, it did " + damage + " damage on you.")
                     self.add_item("dead cave monster")
                     self.add_item("stone", random.randint(1, 6))
-                    self.health = self.health - damage
                 elif event in range(11, 16):
                     say("You found some iron.")
                     self.add_item("iron", random.randint(1, 3))
@@ -310,9 +315,6 @@ class Game:
                 self.load_from_file("save.json")
             else:
                 say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
-
-            if self.health <= 0:
-                self.kill_player()
 
 g = Game()
 newOrOld = ask("Do you want to continue an old game? ")
