@@ -105,7 +105,7 @@ class Game:
     def meet_danscupcaken(self):
         if not self.has_seen_danscupcaken:
             say("Danscupcaken: Hello, my name is Danscupcaken.")
-            say("I am a member of the immortals.")
+            say("Danscupcaken: I am a member of the immortals.")
             saidName = ask("Danscupcaken: What is your name? ")
             if not saidName == self.name:
                 say("Danscupcaken: Nah, I know you real name.")
@@ -154,21 +154,23 @@ class Game:
             elif action == "Check my health.":
                 say("Your health is " + str(self.health) + ".")
             elif action == "Up, up, down, down, left, right, left, right, b, a, start.":
-                self.add_item("wooden log", 999)
-                self.health = 999
-                self.safeness = 999
-                self.add_item("dead cave monster", 999)
-                self.add_item("stone", 999)
-                self.add_item("iron", 999)
-                self.add_item("cheaters pass", 999)
-                self.add_item("fire potion", 999)
-                self.add_item("water potion", 999)
-                self.add_item("air potion", 999)
-                self.add_item("earth potion", 999)
-                self.add_item("gold", 999)
-                self.add_item("diamond", 999)
-                self.points = 999
-                self.add_item("respawn orb", 999)
+                much = 999 * 999
+                self.add_item("wooden log", much)
+                self.health = much
+                self.safeness = much
+                self.add_item("dead cave monster", much)
+                self.add_item("stone", much)
+                self.add_item("iron", much)
+                self.add_item("cheaters pass", much)
+                self.add_item("fire potion",much)
+                self.add_item("water potion", much)
+                self.add_item("air potion", much)
+                self.add_item("earth potion", much)
+                self.add_item("gold", much)
+                self.add_item("diamond", much)
+                self.points = much
+                self.add_item("respawn orb", much)
+                self.add_item("Dancupcaken core", much)
                 say("You cheater! Okay, here. Have everything you'll ever need in this game.")
             elif action == "Build a starter house.":
                 if self.drop_item("wooden log", 10):
@@ -302,7 +304,7 @@ class Game:
                     self.meet_danscupcaken()
                 else:
                     say("Nothing happened.")
-            elif action == "Build a tempel of the immortals.":
+            elif action == "Build a temple of the immortals.":
                 if drop_item("stone", 99) and drop_item("diamond", 10) and have_item("respawn orb") and not have_team_temple:
                     say_pause_say("Building. Please wait...", 42, " done. You got 3500 points safer.")
                     self.points = points + 1
