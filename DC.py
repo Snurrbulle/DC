@@ -108,7 +108,7 @@ class Game:
 
     def meet_danscupcaken(self):
         if not self.has_seen_danscupcaken:
-            say("Danscupcaken: Hello, my name is Danscupcaken.")
+            say("?2: Hello, my name is Danscupcaken.")
             say("Danscupcaken: I am a member of the immortals.")
             saidName = ask("Danscupcaken: What is your name? ")
             if not saidName == self.name:
@@ -127,6 +127,12 @@ class Game:
         if self.health <= 0:
             kill_player()
 
+    def meet_snurrbulle():
+        say("Hello, fellow being.")
+        saidTeam = ask("Which team are you on?")
+        say("Bye.")
+
+
     def game_loop(self):
         if not self.has_seen_intro:
             say("?1: Hello.")
@@ -141,6 +147,7 @@ class Game:
             say("Kasper: Return here when you have 5000 safeness and 7500 points.")
             say("Kasper: Bye for now.")
             self.has_seen_intro = True
+
         while True:
             action = ask("What is your next action? ")
             if action == "Cut down a tree.":
@@ -319,6 +326,13 @@ class Game:
             elif action == "Load game.":
                 say("You will now load another game state.")
                 self.load_from_file("save.json")
+            elif action == "Call for Snurrbulle.":
+                if not self.have_item("cheaters pass"):
+                    meet_snurrbulle()
+                else:
+                    say("Snurrbulle: You are just a cheater.")
+                    say("Snurrbulle: Never disturb me ever again.")
+                    say("Snurrbulle put you back in your world.")
             else:
                 say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
 
