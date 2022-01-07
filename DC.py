@@ -198,7 +198,7 @@ class Game:
                 time.sleep(random.randint(1, 25))
                 event = random.randint(0, 19)
                 if event in range(10):
-                    damage = str(random.randint(1, 10))
+                    damage = random.randint(1, 10)
                     self.damage_player(damage)
                     say(f"You found a cave monster. Before you killed it, it did {damage} damage on you.")
                     self.add_item("dead cave monster")
