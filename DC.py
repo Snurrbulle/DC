@@ -42,8 +42,12 @@ class Game:
                       f, indent=True, sort_keys=True)
 
     def load_from_file(self, filename):
-        with open(filename) as f:
-            j = json.load(f)
+        try:
+            with open(filename) as f:
+                j = json.load(f)
+        except OSError as e:
+            print(f"Failed to load saved game: {e}")
+            sys.exit()
         self.inventory = j.get("inventory", {})
         self.health = j.get("health", 10)
         self.safeness = j.get("safeness", 0)
