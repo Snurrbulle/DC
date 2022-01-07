@@ -113,7 +113,7 @@ class Game:
             saidName = ask("Danscupcaken: What is your name? ")
             if not saidName == self.name:
                 say("Danscupcaken: Nah, I know you real name.")
-                say("Danscupcaken: Kasper told me that it's " + self.name + ".")
+                say(f"Danscupcaken: Kasper told me that it's {self.name}.")
             ask("Danscupcaken: What did you want to tell me, anyways? ")
             say("Danscupcaken: Whatever, I don't have time for you anyways.")
             say("Danscupcaken: Bye bye.")
@@ -139,7 +139,7 @@ class Game:
             say("?1: My name is Kasper.")
             say("Kasper: Kasper Margit.")
             self.name = ask("Kasper: What's your name? ")
-            say("Kasper: Hi, " + self.name + ".")
+            say(f"Kasper: Hi, {self.name}.")
             say("Kasper: I just found you here.")
             say("Kasper: But you are not ready yet.")
             say("Kasper: I will put you in another world, where you'll be all alone.")
@@ -155,7 +155,7 @@ class Game:
                 self.add_item("wooden log", count=5)
                 self.points = self.points + 5
             elif action == "Open my inventory.":
-                say("Inventory: {}".format(self.inventory))
+                say(f"Inventory: {self.inventory}")
             elif action == "Quit game.":
                 self.save_to_file("save.json")
                 sys.exit()
@@ -163,7 +163,7 @@ class Game:
                 self.damage_player(4)
                 say("You lost 4 health points.")
             elif action == "Check my health.":
-                say("Your health is " + str(self.health) + ".")
+                say(f"Your health is {self.health}.")
             elif action == "Up, up, down, down, left, right, left, right, b, a, start.":
                 much = 999 * 999
                 self.add_item("wooden log", much)
@@ -191,7 +191,7 @@ class Game:
                 else:
                     say("You need 10 wooden logs to build this.")
             elif action == "Check my safeness.":
-                say("Your safeness is " + str(self.safeness) + " points.")
+                say(f"Your safeness is {self.safeness} points.")
             elif action == "Enter a nearby cave.":
                 say("You entered a nearby cave.")
                 self.points = self.points + 10
@@ -200,7 +200,7 @@ class Game:
                 if event in range(10):
                     damage = str(random.randint(1, 10))
                     self.damage_player(damage)
-                    say("You found a cave monster. Before you killed it, it did " + damage + " damage on you.")
+                    say(f"You found a cave monster. Before you killed it, it did {damage} damage on you.")
                     self.add_item("dead cave monster")
                     self.add_item("stone", random.randint(1, 6))
                 elif event in range(11, 16):
@@ -231,7 +231,7 @@ class Game:
                     elif tresureRandomness == 3:
                         self.add_item("earth potion")
                         tresure = "earth potion"
-                    say("You found a " + treasure + ".")
+                    say(f"You found a {treasure}.")
                 elif event == 20:
                     say("You found a diamond! How lucky!")
                     self.add_item("diamond")
@@ -334,7 +334,7 @@ class Game:
                     say("Snurrbulle: Never disturb me ever again.")
                     say("Snurrbulle put you back in your world.")
             else:
-                say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
+                say("There is no action called {action!r}, please check your spelling, grammar or maybe you can't do that in this game.")
 
 g = Game()
 newOrOld = ask("Do you want to continue an old game? ")
