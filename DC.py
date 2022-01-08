@@ -403,7 +403,7 @@ class Game:
                 else:
                     say("You need 1 Danscupcaken core and 8 stones to build this.")
             elif action == "Call for Kasper.":
-                if self.points >= 7500 and self.safeness >= 5000:
+                if self.points >= 7500 and self.safeness >= 5000 and not self.hate_kasper:
                     self.back_to_kasper()
                 else:
                     say("Nothing happned.")
