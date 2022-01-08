@@ -142,7 +142,10 @@ class Game:
         game_loop()
 
     def damage_player(self, damage):
-        self.health = self.health - damage
+        if self.safeness > 0:
+            self.health = self.health - ( damage / ( self.safeness / 3 ) )
+        else:
+            self.health = self.health - damage
         if self.health <= 0:
             kill_player()
 
