@@ -29,6 +29,9 @@ class Game:
         self.has_danscupcaken_statue = False
         self.has_seen_danscupcaken = False
         self.have_team_temple = False
+        self.team = "none yet"
+        self.has_seen_snurrbulle = False
+        self.hate_kasper = False
 
     def save_to_file(self, filename):
         with open(filename, "w") as f:
@@ -38,7 +41,9 @@ class Game:
                        "has_been_back_to_kasper": self.has_been_back_to_kasper,
                        "has_danscupcaken_statue": self.has_danscupcaken_statue,
                        "has_seen_danscupcaken": self.has_seen_danscupcaken,
-                       "have_team_temple": self.have_team_temple},
+                       "have_team_temple": self.have_team_temple,
+                       "team": self.team, "has_seen_snurrbulle":
+                       self.has_seen_snurrbulle, "hate_kasper": self.hate_kasper},
                       f, indent=True, sort_keys=True)
 
     def load_from_file(self, filename):
@@ -58,6 +63,9 @@ class Game:
         self.has_danscupcaken_statue = j.get("has_danscupcaken_statue", False)
         self.has_seen_danscupcaken = j.get("has_seen_danscupcaken", False)
         self.have_team_temple = j.get("have_team_temple", False)
+        self.team = j.get("team", "none yet")
+        self.has_seen_snurrbulle = j.get("has_seen_snurrbulle", False)
+        self.hate_kasper = j.get("hate_kasper", False)
 
     def have_item(self, it):
         return self.inventory.get(it, 0) > 0
@@ -82,6 +90,7 @@ class Game:
             say("Kasper: I will now give you a respawn orb.")
             say("Kasper: You are now part of the imortals.")
             self.add_item("respawn orb")
+            self.team = "the immortals"
             say("Kasper: Bye!")
         else:
             say("Kasper: I don't have time for you right now.")
@@ -92,7 +101,8 @@ class Game:
         if have_item("respawn orb"):
             say("You respawned.")
             inventory = {}
-            add_item("respawn orb")
+            self.add_item("respawn orb")
+            self.add_item("cell phone")
             health = 10
             points = 0
         else:
@@ -104,6 +114,11 @@ class Game:
             self.name = 0
             self.has_seen_intro = False
             self.has_been_back_to_kasper = False
+            self.has_seen_snurrbulle = False
+            self.has_danscupcaken_statue = False
+            self.team = "none yet"
+            self.have_team_temple = False
+            self.hate_kasper = False
         game_loop()
 
     def meet_danscupcaken(self):
@@ -127,10 +142,52 @@ class Game:
         if self.health <= 0:
             kill_player()
 
-    def meet_snurrbulle():
-        say("Hello, fellow being.")
-        saidTeam = ask("Which team are you on?")
-        say("Bye.")
+    def meet_snurrbulle(self):
+        say("Snurrbulle: Hello, fellow being.")
+        if not self.has_seen_snurrbulle:
+            saidTeam = ask("Snurrbulle: Which team are you on? ")
+            if not saidTeam == self.team:
+                say("Snurrbulle: You look more like a " + self.team + ".")
+            say("Snurrbulle: I'm a god.")
+            say("Snurrbulle: And I know that you do not belong to this realm.")
+            say("Snurrbulle: None of the worlds.")
+        else:
+            say("Snurrbulle: Hello, fellow being.")
+        if self.team == "the immortals":
+            say("Kasper: That can't be true.")
+            say("Snurrbulle: Kasper, how many times must I tell you to not use your team leader powers to eavesdrop on me?")
+            say("Kasper: Sorry, Snurrbulle.")
+            say("Snurrbulle: For you who probably don't understand this right now, " + self.name + "...")
+            say("Kasper: Team leaders can travel between worlds without calling for their owners.")
+            say("Snurrbulle: Yeah.")
+            say("Kasper: But how isn't " + self.name + " from this realm?")
+            say("Kasper: I though other realms was just a fairy tale.")
+            say("Snurrbulle: I though so too, until I saw a portal to one.")
+            say("Snurrbulle: It was 2 years ago.")
+            say("Snurrbulle: I was doing stuff in my world 'til a portal opened up.")
+            say("Snurrbulle: And somone got thrown out of it.")
+            say("Kasper: Was it " + self.name + "?")
+            say("Snurrbulle: Yes.")
+            say("Kasper ran away from this world.")
+            say("Your phone says 'emergency meeting @ my place - Kasper'.")
+            say("Snurrbulle: But it was supposed to be a secret...")
+            say("You got over to Kaspers world.")
+            say("Kasper: Snurrbulle said that " + self.name + " was from another dimension.")
+            say("Kapser: We got to kick them out.")
+            say("Danscupcaken: That can't be true.")
+            say("NerdyNerd: Well, that's true.")
+            say("Danscupcaken: I didn't go here for fairy tales!")
+            say("NerdyNerd: Me neither!")
+            say("Kasper: Okay, okay.")
+            say("The guests start to move towards the exit.")
+            say("NerdyNerd: Don't listen to Kasper.")
+            say("Danscupcaken: Yeah, he's a big liar.")
+            say("You all went home.")
+            self.hate_kasper = True
+        else:
+            say("Snurrbulle: But it's not a big thing.")
+            say("Bye, fellow being.")
+        self.game_loop()
 
 
     def game_loop(self):
@@ -145,6 +202,8 @@ class Game:
             say("Kasper: I will put you in another world, where you'll be all alone.")
             say("Kasper: Survive to prove yourself ready.")
             say("Kasper: Return here when you have 5000 safeness and 7500 points.")
+            say("Kasper: Here, take a cell phone.")
+            self.add_item("cell phone")
             say("Kasper: Bye for now.")
             self.has_seen_intro = True
 
@@ -328,13 +387,13 @@ class Game:
                 self.load_from_file("save.json")
             elif action == "Call for Snurrbulle.":
                 if not self.have_item("cheaters pass"):
-                    meet_snurrbulle()
+                    self.meet_snurrbulle()
                 else:
                     say("Snurrbulle: You are just a cheater.")
                     say("Snurrbulle: Never disturb me ever again.")
-                    say("Snurrbulle put you back in your world.")
             else:
                 say("There is no action called '" + action + "', please check your spelling, grammar or maybe you can't do that in this game.")
+                self.team = "the immortals"
 
 g = Game()
 newOrOld = ask("Do you want to continue an old game? ")
