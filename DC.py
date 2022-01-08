@@ -350,7 +350,7 @@ class Game:
                     self.points = self.points + 123
                 else:
                     say("You need 10 wooden logs, 50 stones, 36 iron, and 60 gold to build this.")
-            elif action == "Save to save file.":
+            elif action == "Save game.":
                 self.save_to_file("save.json")
                 say("Saved your game state to 'save.json'")
             elif action == "Search for a Danscupcaken core.":
