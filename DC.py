@@ -258,7 +258,7 @@ class Game:
             elif action == "Check my health.":
                 say(f"Your health is {self.health}.")
             elif action == "Up, up, down, down, left, right, left, right, b, a, start.":
-                much = 999 * 999
+                much = 9691789 * 67892675689
                 self.add_item("wooden log", much)
                 self.health = much
                 self.safeness = much
