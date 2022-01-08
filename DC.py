@@ -32,6 +32,7 @@ class Game:
         self.team = "none yet"
         self.has_seen_snurrbulle = False
         self.hate_kasper = False
+        self.immortals_leader = "Kasper Margit"
 
     def save_to_file(self, filename):
         with open(filename, "w") as f:
@@ -43,7 +44,8 @@ class Game:
                        "has_seen_danscupcaken": self.has_seen_danscupcaken,
                        "have_team_temple": self.have_team_temple,
                        "team": self.team, "has_seen_snurrbulle":
-                       self.has_seen_snurrbulle, "hate_kasper": self.hate_kasper},
+                       self.has_seen_snurrbulle, "hate_kasper": self.hate_kasper,
+                       "immortals_leader": self.immortals_leader},
                       f, indent=True, sort_keys=True)
 
     def load_from_file(self, filename):
@@ -66,6 +68,7 @@ class Game:
         self.team = j.get("team", "none yet")
         self.has_seen_snurrbulle = j.get("has_seen_snurrbulle", False)
         self.hate_kasper = j.get("hate_kasper", False)
+        self.immortals_leader = j.get("immortals_leader", "Kasper Margit")
 
     def have_item(self, it):
         return self.inventory.get(it, 0) > 0
@@ -119,6 +122,7 @@ class Game:
             self.team = "none yet"
             self.have_team_temple = False
             self.hate_kasper = False
+            self.immortals_leader = "Kasper Margit"
         game_loop()
 
     def meet_danscupcaken(self):
@@ -189,6 +193,36 @@ class Game:
             say("Bye, fellow being.")
         self.game_loop()
 
+    def emergency_meeting(self):
+        if self.team == "the immortals":
+            if self.immortals_leader == "Kasper Margit":
+                if self.hate_kasper:
+                    say_pause_say("", 5, "The guests started to appear.")
+                    say("Kasper: Why whould we listen to somone from another realm?")
+                    say("Danscupcaken: I said that that is impossible.")
+                    say("NerdyNerd: Me too.")
+                    say("Kasper: But Snurrbulle never lies.")
+                    say("Danscupcaken: Yeah, but it's obvious this time.")
+                    say("NerdyNerd: Yeah.")
+                    say("Danscupcaken: If you're gonna kick out somone innocent, then we're gonna kick you out first.")
+                    say("NerdyNerd: You on, " + self.name + "?")
+                    say("Danscupcaken: Of course.")
+                    # Fight function
+                else:
+                    say_pause_say("", 5, "The guests started to appear.")
+                    say("Danscupcaken: I heard that this was an emergency meeting.")
+                    say("NerdyNerd: I also heard that.")
+                    ask("Kasper: What was it about?")
+                    say("Kasper: That isn't a good enough excuse.")
+                    say("Kasper: I'm going home.")
+                    say("He did.")
+                    say("Danscupcaken: Okay, I'll do so too.")
+                    say("NerdyNerd: Bye, " + self.name + ".")
+                    say("They left.")
+            else:
+                assert False, f"Bad leader: {self.immortals_leader}"
+        else:
+            assert False, f"Bad team: {self.team}"
 
     def game_loop(self):
         if not self.has_seen_intro:
@@ -374,7 +408,7 @@ class Game:
                     self.meet_danscupcaken()
                 else:
                     say("Nothing happened.")
-            elif action == "Build a temple of the immortals.":
+            elif action == "Build a team temple.":
                 if drop_item("stone", 99) and drop_item("diamond", 10) and have_item("respawn orb") and not have_team_temple:
                     say_pause_say("Building. Please wait...", 42, " done. You got 3500 points safer.")
                     self.points = points + 1
@@ -391,6 +425,11 @@ class Game:
                 else:
                     say("Snurrbulle: You are just a cheater.")
                     say("Snurrbulle: Never disturb me ever again.")
+            elif action == "Start an emergency meeting.":
+                if self.have_team_temple:
+                    self.emergency_meeting()
+                else:
+                    say("You need a team temple to call for an emergency meeting.")
             else:
                 say(f"There is no action called {action!r}, please check your spelling, grammar or maybe you can't do that in this game.")
 
