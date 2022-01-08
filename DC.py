@@ -50,7 +50,7 @@ class Game:
         try:
             with open(filename) as f:
                 j = json.load(f)
-        except OSError as e:
+        except (OSError, json.decoder.JSONDecodeError) as e:
             print(f"Failed to load saved game: {e}")
             sys.exit()
         self.inventory = j.get("inventory", {})
