@@ -324,10 +324,14 @@ class Game:
                     elif tresureRandomness == 3:
                         self.add_item("earth potion")
                         tresure = "earth potion"
+                    else:
+                        assert False, f"Bad treasure: {treasure}"
                     say(f"You found a {treasure}.")
                 elif event == 20:
                     say("You found a diamond! How lucky!")
                     self.add_item("diamond")
+                else:
+                    assert False, f"Bad event: {event}"
             elif action == "Build a stone house.":
                 if self.drop_item("wooden log", 5) and self.drop_item("stone", 10):
                     say_pause_say("Building. Please wait...", 20, " done. You got 8 points safer.")
