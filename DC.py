@@ -33,6 +33,7 @@ class Game:
         self.has_seen_snurrbulle = False
         self.hate_kasper = False
         self.immortals_leader = "Kasper Margit"
+        self.player_damage = 5
 
     def save_to_file(self, filename):
         with open(filename, "w") as f:
@@ -45,7 +46,8 @@ class Game:
                        "have_team_temple": self.have_team_temple,
                        "team": self.team, "has_seen_snurrbulle":
                        self.has_seen_snurrbulle, "hate_kasper": self.hate_kasper,
-                       "immortals_leader": self.immortals_leader},
+                       "immortals_leader": self.immortals_leader, "player_damage":
+                       self.player_damage},
                       f, indent=True, sort_keys=True)
 
     def load_from_file(self, filename):
@@ -69,6 +71,7 @@ class Game:
         self.has_seen_snurrbulle = j.get("has_seen_snurrbulle", False)
         self.hate_kasper = j.get("hate_kasper", False)
         self.immortals_leader = j.get("immortals_leader", "Kasper Margit")
+        self.player_damage = j.get("player_damage", 5)
 
     def have_item(self, it):
         return self.inventory.get(it, 0) > 0
@@ -123,6 +126,7 @@ class Game:
             self.have_team_temple = False
             self.hate_kasper = False
             self.immortals_leader = "Kasper Margit"
+            self.player_damage = 5
         game_loop()
 
     def meet_danscupcaken(self):
@@ -143,11 +147,13 @@ class Game:
 
     def damage_player(self, damage):
         if self.safeness > 0:
-            self.health = self.health - ( damage / ( self.safeness / 3 ) )
+            f = self.health = self.health - ( damage / ( self.safeness / 3 ) )
         else:
-            self.health = self.health - damage
+            f = self.health = self.health - damage
         if self.health <= 0:
             kill_player()
+        else:
+            return f
 
     def meet_snurrbulle(self):
         say("Snurrbulle: Hello, fellow being.")
@@ -226,6 +232,52 @@ class Game:
                 assert False, f"Bad leader: {self.immortals_leader}"
         else:
             assert False, f"Bad team: {self.team}"
+
+    def battle(opponent):
+        say(opponent + " blocks the way.")
+        if opponent == "Kasper Margit":
+            opponent_attack == 5136
+            opponent_defence == 1223
+            opponent_health == 13
+            mercy_per_act == 9
+            attack = "Kasper used mysterious team leader powers at you."
+            act = "You said that that just because you often do something, you don't necessarily have to do it all the time."
+            death1 = "Kasper: You are stronger than I would ever have thought."
+            death2 = "Kasper: Other realms sure are dangerous."
+            death3 = "Kasper: Do me a favor, and make Danscupcaken the next leader of the immortals."
+        else:
+            assert False, f"Bad opponent: {opponent}"
+        while True:
+            action = ask("What is your next action?")
+            if action == "Act.":
+                say(act)
+                say("It got + " + mercy_per_act + " % mercied.")
+                total_mercy = total_mercy + mercy_per_act
+                if total_mercy >= 100:
+                    say("You can now spare them.")
+            elif action == "Mercy.":
+                if total_mercy >= 100:
+                    say("You spared " + opponent + ".")
+                    return "mercy"
+                else:
+                    say("You cant't spare " + opponent + " yet.")
+                    say("You need " + 100 - total_mercy + " % mercy to spare them.")
+            elif action == "Fight.":
+                say("You slapped " + opponent + ".")
+                damage = self.player_damage / opponent_defence
+                say("They lost " + damage + " health and have " + opponent_health + " left.")
+                opponent_health = opponent_health - damage
+                if opponent_health <= 0:
+                    break
+            else:
+                say("That isn't a proper action.")
+            say(attack)
+            damage = damage_player(opponent_attack)
+            say("You lost " + damage + " health.")
+        say(death1)
+        say(death2)
+        say(death3)
+        say(opponent + " died.")
 
     def game_loop(self):
         if not self.has_seen_intro:
