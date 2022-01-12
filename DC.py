@@ -360,7 +360,7 @@ class Game:
                 self.points = self.points + 10
                 time.sleep(random.randint(1, 25))
                 event = random.randint(0, 19)
-                if event in range(10):
+                if event in range(11):
                     self.battle("Cave Monster")
                     self.add_item("stone", random.randint(1, 6))
                 elif event in range(11, 16):
