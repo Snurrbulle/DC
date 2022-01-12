@@ -233,8 +233,9 @@ class Game:
         else:
             assert False, f"Bad team: {self.team}"
 
-    def battle(opponent):
+    def battle(self, opponent):
         say(opponent + " blocks the way.")
+        total_mercy = 0
         if opponent == "Kasper Margit":
             opponent_attack == 5136
             opponent_defence == 1223
@@ -245,13 +246,25 @@ class Game:
             death1 = "Kasper: You are stronger than I would ever have thought."
             death2 = "Kasper: Other realms sure are dangerous."
             death3 = "Kasper: Do me a favor, and make Danscupcaken the next leader of the immortals."
+            loot = "immortals ring"
+        elif opponent == "Cave Monster":
+            opponent_attack = 3
+            opponent_defence = 1
+            opponent_health = 15
+            mercy_per_act = 69
+            attack = "The cave monster bit you."
+            act = "You pet the cave monster."
+            death1 = "Ugh."
+            death2 = "Bugh."
+            death3 = "Gaaaaaaaaaaah!"
+            loot = "dead cave monster"
         else:
             assert False, f"Bad opponent: {opponent}"
         while True:
-            action = ask("What is your next action?")
+            action = ask("What is your next action? ")
             if action == "Act.":
                 say(act)
-                say("It got + " + mercy_per_act + " % mercied.")
+                say("It got + " + str(mercy_per_act) + " % mercied.")
                 total_mercy = total_mercy + mercy_per_act
                 if total_mercy >= 100:
                     say("You can now spare them.")
@@ -261,23 +274,25 @@ class Game:
                     return "mercy"
                 else:
                     say("You cant't spare " + opponent + " yet.")
-                    say("You need " + 100 - total_mercy + " % mercy to spare them.")
+                    say("You need " + str(100 - total_mercy) + " % mercy to spare them.")
             elif action == "Fight.":
                 say("You slapped " + opponent + ".")
                 damage = self.player_damage / opponent_defence
-                say("They lost " + damage + " health and have " + opponent_health + " left.")
                 opponent_health = opponent_health - damage
+                say("They lost " + str(damage) + " health and have " + str(opponent_health) + " left.")
                 if opponent_health <= 0:
                     break
             else:
                 say("That isn't a proper action.")
             say(attack)
-            damage = damage_player(opponent_attack)
-            say("You lost " + damage + " health.")
+            damage = self.damage_player(opponent_attack)
+            say("You lost " + str(damage) + " health.")
         say(death1)
         say(death2)
         say(death3)
         say(opponent + " died.")
+        say("You got " + loot + ".")
+        self.add_item(loot)
 
     def game_loop(self):
         if not self.has_seen_intro:
@@ -346,10 +361,7 @@ class Game:
                 time.sleep(random.randint(1, 25))
                 event = random.randint(0, 19)
                 if event in range(10):
-                    damage = random.randint(1, 10)
-                    self.damage_player(damage)
-                    say(f"You found a cave monster. Before you killed it, it did {damage} damage on you.")
-                    self.add_item("dead cave monster")
+                    self.battle("Cave Monster")
                     self.add_item("stone", random.randint(1, 6))
                 elif event in range(11, 16):
                     say("You found some iron.")
