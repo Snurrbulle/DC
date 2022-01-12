@@ -13,7 +13,7 @@ def say_pause_say(first, pause_sec, second):
     print(second)
 
 def ask(it):
-    print(it, end="", flush=True)
+    say(it)
     c = input("")
     return c
 
