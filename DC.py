@@ -216,7 +216,38 @@ class Game:
                     say("Danscupcaken: If you're gonna kick out somone innocent, then we're gonna kick you out first.")
                     say("NerdyNerd: You on, " + self.name + "?")
                     say("Danscupcaken: Of course.")
-                    # Fight function
+                    battle("Kasper Margit")
+                    say("Danscupcaken: We'll probably never see him again.")
+                    say("NerdyNerd: Yeah.")
+                    say("Danscupcaken: Let's make Snurrbulle the new leader.")
+                    say("NerdyNerd: No.")
+                    say("Dancupcaken: Why not?")
+                    say("NerdyNerd: Because I actually trusted Snurrbulle.")
+                    say("Dancupcaken: Whatever, you're now banned from " + self.name + "'s world.")
+                    while True:
+                        banned = ask("NerdyNerd: Am I")
+                        if banned == "Yes.":
+                            say("NerdyNerd: Whatever, I'll just go destroy Danscupcaken's world then.")
+                            say("Danscupcaken: No, you don't!")
+                            say("Looks like they are playing tag.")
+                            say("You may never see them again.")
+                            say("You must now create your own team.")
+                            self.team = "the gamers"
+                            say("You decided to call it 'the gamers'.")
+                            break
+                        elif banned == "No.":
+                            say("Danscupcaken: Traitor!")
+                            say("NerdyNerd: See?")
+                            say("Danscupcaken: No you little!")
+                            say("Looks like they are playing tag.")
+                            say("You may never see them again.")
+                            say("You must now create your own team.")
+                            self.team = "the gamers"
+                            say("You decided to call it 'the gamers'.")
+                            break
+                        else:
+                            say("Danscupcaken: Seriously.")
+
                 else:
                     say_pause_say("", 5, "The guests started to appear.")
                     say("Danscupcaken: I heard that this was an emergency meeting.")
