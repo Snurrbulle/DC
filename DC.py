@@ -88,6 +88,17 @@ class Game:
         else:
             return False
 
+    def add_recruit(self, recruit, count=1):
+        p = self.recruits.setdefault(recruit, 0)
+        if p >= count:
+            self.recruits[recruit] -= count
+            return True
+        else:
+            return False
+
+    def have_recruit(self, recruit):
+        return self.recruits.get(recruit, 0) > 0
+
     def back_to_kasper(self):
         say("Kasper: Hello.")
         if not self.has_been_back_to_kasper:
