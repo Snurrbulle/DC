@@ -567,7 +567,7 @@ class Game:
                 else:
                     say("What recruits?")
                     say("What are you talking about?")
-                    say("Only team leader can have recruits.")
+                    say("Only team leaders can have recruits.")
             else:
                 say(f"There is no action called {action!r}, please check your spelling, grammar or maybe you can't do that in this game.")
 
