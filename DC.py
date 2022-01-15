@@ -108,6 +108,10 @@ class Game:
             say("Kasper: You are now part of the imortals.")
             self.add_item("respawn orb")
             self.team = "the immortals"
+            say("Kasper: Also, take the numbers to the other members.")
+            say("Kasper: The others are Danscupcaken and NerdyNerd.")
+            add_item("Danscupcakens number")
+            add_item("NerdyNerds number")
             say("Kasper: Bye!")
         else:
             say("Kasper: I don't have time for you right now.")
@@ -354,6 +358,8 @@ class Game:
             say("Kasper: Return here when you have 5000 safeness and 7500 points.")
             say("Kasper: Here, take a cell phone.")
             self.add_item("cell phone")
+            say("Kasper: And my number.")
+            self.add_item("Kaspers number")
             say("Kasper: Bye for now.")
             self.has_seen_intro = True
 
@@ -516,15 +522,21 @@ class Game:
                 else:
                     say("You need 1 Danscupcaken core and 8 stones to build this.")
             elif action == "Call for Kasper.":
-                if self.points >= 7500 and self.safeness >= 5000 and not self.hate_kasper:
-                    self.back_to_kasper()
+                if have_item("Kaspers number"):
+                    if self.points >= 7500 and self.safeness >= 5000 and not self.hate_kasper:
+                        self.back_to_kasper()
+                    else:
+                         say("No one picked up.")
                 else:
-                    say("Nothing happned.")
+                    say("You don't have that number.")
             elif action == "Call for Danscupcaken.":
-                if self.has_danscupcaken_statue:
-                    self.meet_danscupcaken()
+                if have_item("Danscupcakens number")
+                    if self.has_danscupcaken_statue:
+                        self.meet_danscupcaken()
+                    else:
+                        say("No one picked up.")
                 else:
-                    say("Nothing happened.")
+                    say("You don't have that number.")
             elif action == "Build a team temple.":
                 if drop_item("stone", 99) and drop_item("diamond", 10) and have_item("respawn orb") and not have_team_temple:
                     say_pause_say("Building. Please wait...", 42, " done. You got 3500 points safer.")
@@ -537,11 +549,13 @@ class Game:
                 say("You will now load another game state.")
                 self.load_from_file("save.json")
             elif action == "Call for Snurrbulle.":
-                if not self.have_item("cheaters pass"):
-                    self.meet_snurrbulle()
+                if have_item("Snurrbulles number"):
+                    if not self.have_item("cheaters pass"):
+                        self.meet_snurrbulle()
+                    else:
+                        say("No one picked up.")
                 else:
-                    say("Snurrbulle: You are just a cheater.")
-                    say("Snurrbulle: Never disturb me ever again.")
+                    say("You don't have that number.")
             elif action == "Start an emergency meeting.":
                 if self.have_team_temple:
                     self.emergency_meeting()
