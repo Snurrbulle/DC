@@ -289,6 +289,7 @@ class Game:
             death2 = "Kasper: Other realms sure are dangerous."
             death3 = "Kasper: Do me a favor, and make Danscupcaken the next leader of the immortals."
             loot = "immortals ring"
+            recruitable = False
         elif opponent == "Cave Monster":
             opponent_attack = 3
             opponent_defence = 1
@@ -300,6 +301,7 @@ class Game:
             death2 = "Bugh."
             death3 = "Gaaaaaaaaaaah!"
             loot = "dead cave monster"
+            recruitable = True
         else:
             assert False, f"Bad opponent: {opponent}"
         while True:
@@ -313,6 +315,8 @@ class Game:
             elif action == "Mercy.":
                 if total_mercy >= 100:
                     say("You spared " + opponent + ".")
+                    if recruitable == True:
+                        self.add_recruit(oppenent)
                     return "mercy"
                 else:
                     say("You cant't spare " + opponent + " yet.")
@@ -543,6 +547,13 @@ class Game:
                     self.emergency_meeting()
                 else:
                     say("You need a team temple to call for an emergency meeting.")
+            elif action == "Check my recruits.":
+                if self.team == "the gamers":
+                    say(f"Recruits: {self.recruits}")
+                else:
+                    say("What recruits?")
+                    say("What are you talking about?")
+                    say("Only team leader can have recruits.")
             else:
                 say(f"There is no action called {action!r}, please check your spelling, grammar or maybe you can't do that in this game.")
 
