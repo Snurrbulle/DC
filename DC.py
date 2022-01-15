@@ -294,7 +294,8 @@ class Game:
             death3 = "Kasper: Do me a favor, and make Danscupcaken the next leader of the immortals."
             loot = "immortals ring"
             recruitable = False
-        elif opponent == "Cave Monster":
+            capital_name = "Kasper Margit"
+        elif opponent == "cave monster":
             opponent_attack = 3
             opponent_defence = 1
             opponent_health = 15
@@ -306,6 +307,33 @@ class Game:
             death3 = "Gaaaaaaaaaaah!"
             loot = "dead cave monster"
             recruitable = True
+            capital_name = "Cave monster"
+        elif opponent == "forest monster":
+            opponent_attack = 2
+            opponent_defence = 1
+            opponent_health = 10
+            mercy_per_act = 99
+            attack = "The forest monster bit you."
+            act = "You pet the forest monster."
+            death1 = "Guh."
+            death2 = "Ng."
+            death3 = "Aaaaaaaaaaaaaaa!"
+            loot = "dead forest monster"
+            recruitable = True
+            capital_name = "Forest monster"
+        elif opponent == "lost one":
+            opponent_attack = 33
+            opponent_defence = 15
+            opponent_health = 345
+            mercy_per_act = 100
+            attack = "A lost one used to them unknown magic on you."
+            act = "You told a lost one that they can live at your place and not be lost anymore."
+            death1 = "Lost one: If you'll ever meet any of my friends..."
+            death2 = "Lost one: ...tell them that they don't need to search for me anymore..."
+            death3 = "Lost one: ...because you killed me..."
+            loot = "hand made map"
+            recruitable = True
+            capital_name = "Lost one"
         else:
             assert False, f"Bad opponent: {opponent}"
         while True:
@@ -568,6 +596,45 @@ class Game:
                     say("What recruits?")
                     say("What are you talking about?")
                     say("Only team leaders can have recruits.")
+            elif action == "Enter a nearby forest":
+                self.points = self.points + 10
+                say("You entered a nearby forest.")
+                time.sleep(random.randint(1, 25))
+                event = random.randint(0, 19)
+                if event in range(11):
+                    self.battle("Forest Monster")
+                    self.add_item("wooden log", random.randint(1, 30))
+                elif event in range(11, 16):
+                    say("You found some stone.")
+                    self.add_item("stone", random.randint(1, 6))
+                    self.add_item("wooden log", random.randint(1, 30))
+                elif event in range(15, 18):
+                    say("You found something weird!")
+                    self.add_item("something weird")
+                    self.add_item("wooden log", random.randint(1, 30))
+                elif event == 18:
+                        battle("Lost One")
+                elif event == 19:
+                    treasureRandomness = random.randint(0, 5)
+                    if treasureRandomness == 0:
+                        self.add_item("fire potion")
+                        tresure = "fire potion"
+                    elif tresureRandomness == 1:
+                        self.add_item("water potion")
+                        tresure = "water potion"
+                    elif tresureRandomness == 2:
+                        self.add_item("air potion")
+                        tresure = "air potion"
+                    elif tresureRandomness == 3:
+                        self.add_item("earth potion")
+                        tresure = "earth potion"
+                    else:
+                        assert False, f"Bad treasure: {treasure}"
+                    say(f"You found a {treasure}.")
+                elif event == 20:
+                    say("You got out before you found anything interesting.")
+                else:
+                    assert False, f"Bad event: {event}"
             else:
                 say(f"There is no action called {action!r}, please check your spelling, grammar or maybe you can't do that in this game.")
 
