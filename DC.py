@@ -105,7 +105,7 @@ class Game:
             say("Kasper: You have proved yoursef ready, by getting 7500 points and 5000 safeness without dying.")
             say("Kasper: Until this day, you have been mortal.")
             say("Kasper: I will now give you a respawn orb.")
-            say("Kasper: You are now part of the imortals.")
+            say("Kasper: You are now part of the immortals.")
             self.add_item("respawn orb")
             self.team = "the immortals"
             say("Kasper: Also, take the numbers to the other members.")
@@ -391,6 +391,7 @@ class Game:
             say("Kasper: Bye for now.")
             self.has_seen_intro = True
 
+        #List of all actions.
         while True:
             action = ask("What is your next action? ")
             if action == "Cut down a tree.":
@@ -461,16 +462,16 @@ class Game:
                     treasureRandomness = random.randint(0, 5)
                     if treasureRandomness == 0:
                         self.add_item("fire potion")
-                        tresure = "fire potion"
-                    elif tresureRandomness == 1:
+                        treasure = "fire potion"
+                    elif treasureRandomness == 1:
                         self.add_item("water potion")
-                        tresure = "water potion"
-                    elif tresureRandomness == 2:
+                        treasure = "water potion"
+                    elif treasureRandomness == 2:
                         self.add_item("air potion")
-                        tresure = "air potion"
-                    elif tresureRandomness == 3:
+                        treasure = "air potion"
+                    elif treasureRandomness == 3:
                         self.add_item("earth potion")
-                        tresure = "earth potion"
+                        treasure = "earth potion"
                     else:
                         assert False, f"Bad treasure: {treasure}"
                     say(f"You found a {treasure}.")
@@ -558,7 +559,7 @@ class Game:
                 else:
                     say("You don't have that number.")
             elif action == "Call for Danscupcaken.":
-                if have_item("Danscupcakens number")
+                if have_item("Danscupcakens number"):
                     if self.has_danscupcaken_statue:
                         self.meet_danscupcaken()
                     else:
@@ -566,7 +567,7 @@ class Game:
                 else:
                     say("You don't have that number.")
             elif action == "Build a team temple.":
-                if drop_item("stone", 99) and drop_item("diamond", 10) and have_item("respawn orb") and not have_team_temple:
+                if drop_item("stone", 99) and drop_item("diamond", 10) and have_item("respawn orb") and not self.have_team_temple:
                     say_pause_say("Building. Please wait...", 42, " done. You got 3500 points safer.")
                     self.points = points + 1
                     self.safeness = safeness + 3500
