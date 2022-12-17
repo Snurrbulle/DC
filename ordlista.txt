@@ -1,0 +1,5 @@
+a=to
+à=ona
+A-aktie=A-katzio
+A-aktien=A-katziol
+A-aktier=
