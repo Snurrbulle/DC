@@ -222,7 +222,7 @@ class Game:
             if self.immortals_leader == "Kasper Margit":
                 if self.hate_kasper:
                     say_pause_say("", 5, "The guests started to appear.")
-                    say("Kasper: Why whould we listen to somone from another realm?")
+                    say("Kasper: Why whould we listen to someone from another realm?")
                     say("Danscupcaken: I said that that is impossible.")
                     say("NerdyNerd: Me too.")
                     say("Kasper: But Snurrbulle never lies.")
@@ -558,7 +558,7 @@ class Game:
                          say("No one picked up.")
                 else:
                     say("You don't have that number.")
-            elif action == "Call for Danscupcaken.":
+            elif action == "Call Danscupcaken.":
                 if have_item("Danscupcakens number"):
                     if self.has_danscupcaken_statue:
                         self.meet_danscupcaken()
