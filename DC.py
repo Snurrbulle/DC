@@ -579,7 +579,7 @@ class Game:
                 self.load_from_file("save.json")
             elif action == "Call for Snurrbulle.":
                 if have_item("Snurrbulles number"):
-                    if not self.have_item("cheaters pass"):
+                    if not self.have_item("cheaters pass") and self.team == "the immortals":
                         self.meet_snurrbulle()
                     else:
                         say("No one picked up.")
@@ -636,6 +636,12 @@ class Game:
                     say("You got out before you found anything interesting.")
                 else:
                     assert False, f"Bad event: {event}"
+            elif action == "Dig a hole.":
+                say_pause_say("Digging... Please wait.", 5, "You dug a hole.")
+                say("But in the hole lies a paper.")
+                say('Some text on the paper said "Call me!" and a number.')
+                say("You got Snurrbulle's number.")
+                self.add_item("Snurrbulles number")
             else:
                 say(f"There is no action called {action!r}, please check your spelling, grammar or maybe you can't do that in this game.")
 
